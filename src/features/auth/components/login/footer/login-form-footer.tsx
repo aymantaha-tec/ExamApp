@@ -1,34 +1,36 @@
 import { Button } from "@/components/ui/button/button.tsx";
 import { FieldDescription } from "@/components/ui/field.tsx";
-
+import { useFormContext } from "react-hook-form";
 import { Link } from "react-router";
 
 interface LoginFormFooterProps {
-  isSubmitting?: boolean;
-  isDisabled?: boolean;
-  isLoading?: boolean;
+  isPending: boolean;
 }
 
-export default function LoginFormFooter({
-  isSubmitting,
-  isDisabled,
-  isLoading,
-}: LoginFormFooterProps) {
+export default function LoginFormFooter({ isPending }: LoginFormFooterProps) {
+  const {
+    formState: { isSubmitting, isSubmitted, isValid },
+  } = useFormContext();
+
+  const isDisabled = (isSubmitted && !isValid) || isSubmitting || isPending;
+
   return (
     <>
-      {/* submit */}
+      {/* Submit */}
       <Button
         type="submit"
         variant="default"
         className="my-7 w-full"
-        disabled={isDisabled || isSubmitting}
-        isLoading={isLoading}
+        disabled={isDisabled}
+        isLoading={isPending}
       >
-        {isSubmitting ? "Logging in..." : "Login"}
+        Login
       </Button>
+
       {/* Description */}
       <FieldDescription className="text-right">
         <span className="text-sm">Don’t have an account?</span>
+
         <Button
           nativeButton={false}
           variant="link"

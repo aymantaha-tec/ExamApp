@@ -26,16 +26,13 @@ export default function LoginForm() {
     login(values);
   };
 
-  const { isSubmitted, isValid } = form.formState;
-  const isSubmitDisabled = (isSubmitted && !isValid) || isPending;
-
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <UsernameField />
         <PasswordField />
         <FormFeedback>{error?.message}</FormFeedback>
-        <LoginFormFooter isLoading={isPending} isDisabled={isSubmitDisabled} />
+        <LoginFormFooter isPending={isPending} />
       </form>
     </FormProvider>
   );
